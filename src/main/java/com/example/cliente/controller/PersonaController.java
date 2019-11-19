@@ -20,6 +20,11 @@ public class PersonaController {
         return ResponseEntity.ok(this.service.findClientes());
 
     }
+    @GetMapping("/getById")
+    public ResponseEntity<?> getClienteById(String id){
+        return ResponseEntity.ok(this.service.findClienteById(id));
+
+    }
 
     @PostMapping("/addCliente")
     public Cliente addCliente (@RequestBody Cliente cliente){
