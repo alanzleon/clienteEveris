@@ -21,5 +21,11 @@ public class PersonaService implements IPersonaService{
         return this.repository.findAll();
     }
 
+    @Override
+    public void updateCliente(Cliente cliente, String id) {
+        cliente.setId(id);
+        this.repository.save(cliente);
+    }
+
 
 }

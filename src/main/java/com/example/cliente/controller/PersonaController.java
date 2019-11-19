@@ -26,4 +26,10 @@ public class PersonaController {
         this.service.saveCliente(cliente);
         return cliente;
     }
+
+    @RequestMapping(value = "/actualizar/{id}", method = RequestMethod.PUT)
+    public Cliente actualizar(@RequestBody Cliente cliente, @PathVariable(value = "id") String id){
+        this.service.updateCliente(cliente,id);
+        return cliente;
+    }
 }

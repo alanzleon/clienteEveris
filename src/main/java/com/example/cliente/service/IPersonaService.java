@@ -6,7 +6,8 @@ import java.util.List;
 
 public interface IPersonaService {
 
-    public void  saveCliente (Cliente cliente);
-    public List<Cliente> findClientes ();
+    void  saveCliente (Cliente cliente);
+    List<Cliente> findClientes ();
+    void updateCliente (Cliente cliente, String id);
 
 }
