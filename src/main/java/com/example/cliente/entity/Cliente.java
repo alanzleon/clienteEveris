@@ -5,6 +5,8 @@ import lombok.Data;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.util.Date;
+
 
 @Data
 @Document(collection="cliente")
@@ -21,5 +23,8 @@ public class Cliente {
     private String sexo;
     private String direccion;
     private String telefono;
+    private char tipoLicencia;
+    private Date fechaEmisionLicencia;
+    private Date fechaVencimientoLicencia;
 
 }

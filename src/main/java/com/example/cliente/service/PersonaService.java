@@ -17,7 +17,11 @@ public class PersonaService implements IPersonaService{
 
     @Override
     public void saveCliente(Cliente cliente) {
-        this.repository.save(cliente);
+        if (cliente.getEdad()>=25){
+            this.repository.save(cliente);
+        }
+        else{}
+
     }
 
     @Override
