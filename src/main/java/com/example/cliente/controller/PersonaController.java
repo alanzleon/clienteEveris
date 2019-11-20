@@ -1,11 +1,13 @@
 package com.example.cliente.controller;
 
 import com.example.cliente.entity.Cliente;
-import com.example.cliente.repository.IClienteRepository;
 import com.example.cliente.service.PersonaService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping(value="/cliente")
@@ -17,24 +19,52 @@ public class PersonaController {
 
     @GetMapping("/getAll")
     public ResponseEntity<?> getAll(){
-        return ResponseEntity.ok(this.service.findClientes());
+        ResponseEntity<?> response;
+        try {
+            List<Cliente> clientes = this.service.findClientes();
+            response = new ResponseEntity<>(clientes, HttpStatus.OK);
+        } catch (Exception ex) {
+            System.out.println(ex);
+            response = new ResponseEntity<>("{\"Error\":\"Algo salio mal :c\"}"+ ex, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+        return response;
 
     }
     @GetMapping("/getById")
     public ResponseEntity<?> getClienteById(String id){
-        return ResponseEntity.ok(this.service.findClienteById(id));
+        ResponseEntity<?> response;
+        try{
+            Cliente cliente = this.service.findClienteById(id);
+            response = new ResponseEntity<>(cliente, HttpStatus.OK);
+        }catch (Exception ex) {
+            System.out.println(ex);
+            response = new ResponseEntity<>("{\"Error\":\"Algo salio mal :c\"}"+ ex, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+        return response;
 
     }
 
     @PostMapping("/addCliente")
-    public Cliente addCliente (@RequestBody Cliente cliente){
-        this.service.saveCliente(cliente);
-        return cliente;
+    public ResponseEntity<?> addCliente (@RequestBody Cliente cliente){
+        ResponseEntity<?> response;
+        String respuestaService = this.service.saveCliente(cliente);
+        try{
+            if(respuestaService.equals("ok")) {
+                response = new ResponseEntity<>("{\"Mensaje\":\"Cliente creado correctamente\"}", HttpStatus.CREATED);
+            } else {
+                response = new ResponseEntity<>("{\"Error\":\"Edad debe ser mayor a 25 años\"}",HttpStatus.BAD_REQUEST);
+            }
+        } catch (Exception ex) {
+            response = new ResponseEntity<>("{\"Error\":\"Algo salio mal :c\"}",HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+        return response;
     }
 
     @RequestMapping(value = "/actualizar/{id}", method = RequestMethod.PUT)
-    public Cliente actualizar(@RequestBody Cliente cliente, @PathVariable(value = "id") String id){
-        this.service.updateCliente(cliente,id);
-        return cliente;
+    public ResponseEntity<?> actualizar(@RequestBody Cliente cliente, @PathVariable(value = "id") String id){
+        ResponseEntity<?> response;
+        String respuestaService = this.service.updateCliente(cliente,id);
+        response = new ResponseEntity<>(respuestaService, HttpStatus.OK);
+        return response;
     }
 }

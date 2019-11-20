@@ -7,8 +7,8 @@ import java.util.Optional;
 
 public interface IPersonaService {
 
-    void  saveCliente (Cliente cliente);
+    String saveCliente (Cliente cliente);
     List<Cliente> findClientes ();
-    void updateCliente (Cliente cliente, String id);
-    Optional<Cliente> findClienteById(String id);
+    String updateCliente (Cliente cliente, String id);
+    Cliente findClienteById(String id);
 }

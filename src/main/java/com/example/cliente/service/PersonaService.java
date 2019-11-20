@@ -16,12 +16,14 @@ public class PersonaService implements IPersonaService{
     private IClienteRepository repository;
 
     @Override
-    public void saveCliente(Cliente cliente) {
+    public String saveCliente(Cliente cliente) {
         if (cliente.getEdad()>=25){
             this.repository.save(cliente);
+            return "ok";
+        } else {
+            return "menor";
         }
-        else{}
-
+        //Falta validar tipo licencia
     }
 
     @Override
@@ -30,14 +32,15 @@ public class PersonaService implements IPersonaService{
     }
 
     @Override
-    public void updateCliente(Cliente cliente, String id) {
-        cliente.setId(id);
-        this.repository.save(cliente);
+    public String updateCliente(Cliente cliente, String id) {
+        //cliente.setId(id);
+        //this.repository.save(cliente);
+        return "";
     }
 
     @Override
-    public Optional<Cliente> findClienteById(@PathVariable String idCliente) {
-        return  this.repository.findById(idCliente);
+    public Cliente findClienteById(@PathVariable String idCliente) {
+        return  this.repository.findById(idCliente).get();
     }
 
 

@@ -5,12 +5,13 @@ import lombok.Data;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.io.Serializable;
 import java.util.Date;
 
 
 @Data
 @Document(collection="cliente")
-public class Cliente {
+public class Cliente implements Serializable {
     @Id
     @NotNull
     private String id;
