@@ -64,7 +64,15 @@ public class PersonaController {
     public ResponseEntity<?> actualizar(@RequestBody Cliente cliente, @PathVariable(value = "id") String id){
         ResponseEntity<?> response;
         String respuestaService = this.service.updateCliente(cliente,id);
-        response = new ResponseEntity<>(respuestaService, HttpStatus.OK);
+        try {
+            if(respuestaService.equals("update")){
+                response = new ResponseEntity<>(cliente, HttpStatus.OK);
+            } else {
+                response = new ResponseEntity<>("{\"Error\":\"Usuario No existe\"}",HttpStatus.BAD_REQUEST);
+            }
+        } catch (Exception ex){
+            response = new ResponseEntity<>("{\"Error\":\"Algo salio mal :c\"}",HttpStatus.INTERNAL_SERVER_ERROR);
+        }
         return response;
     }
 }

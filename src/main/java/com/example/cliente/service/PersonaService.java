@@ -17,6 +17,40 @@ public class PersonaService implements IPersonaService{
 
     @Override
     public String saveCliente(Cliente cliente) {
+        cliente.setSexo(cliente.getSexo().toUpperCase());
+        if(cliente.getRut() != null) {
+            if(cliente.getEdad() >= 25 && cliente.getEdad() < 100){
+                if(cliente.getNombre() != null) {
+                    if (cliente.getApellidoPaterno() != null) {
+                        if(cliente.getApellidoMaterno() != null) {
+                            if(cliente.getSexo() != null) {
+                                if(cliente.getSexo().equals("H") || cliente.getSexo().equals("M")) {
+                                    if(cliente.getDireccion() != null) {
+                                        //Faltan validaciones
+                                    } else {
+                                        return "NoDireccion";
+                                    }
+                                } else {
+                                    return "InvalidSexo";
+                                }
+                            } else {
+                                return "NoSexo";
+                            }
+                        } else {
+                            return "noApellidoMaterno";
+                        }
+                    } else {
+                        return "NoApellidoPaterno";
+                    }
+                } else {
+                    return "NoNombre";
+                }
+            } else {
+                return "NoEdad";
+            }
+        } else {
+            return "NoRut";
+        }
         if (cliente.getEdad()>=25){
             this.repository.save(cliente);
             return "ok";
@@ -33,9 +67,14 @@ public class PersonaService implements IPersonaService{
 
     @Override
     public String updateCliente(Cliente cliente, String id) {
-        //cliente.setId(id);
-        //this.repository.save(cliente);
-        return "";
+        if(this.repository.findOneById(id) != null){
+            cliente.setId(id);
+            this.repository.save(cliente);
+            return "update";
+        } else {
+            return "updateError";
+        }
+
     }
 
     @Override
