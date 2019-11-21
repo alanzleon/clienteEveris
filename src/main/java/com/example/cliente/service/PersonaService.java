@@ -26,6 +26,7 @@ public class PersonaService implements IPersonaService{
 
                 if(cliente.getRut() != null) {
                     if(validarRut(cliente.getRut())){
+                        //Falta validar si existe el rut en la bd.
                         if(cliente.getEdad() >= 25 && cliente.getEdad() < 100){
                             if(cliente.getNombre() != null) {
                                 if (cliente.getApellidoPaterno() != null) {
