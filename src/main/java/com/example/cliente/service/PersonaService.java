@@ -110,8 +110,10 @@ public class PersonaService implements IPersonaService{
     @Override
     public String updateCliente(Cliente cliente, String rut) {
         //Valido que exista el cliente
-        if(this.repository.findOneByRut(rut) != null){
-            Cliente clientebd = this.repository.findOneByRut(rut);
+        String rutFormateado = formatearRut(rut);
+        if(this.repository.findOneByRut(rutFormateado) != null){
+            Cliente clientebd = this.repository.findOneByRut(rutFormateado);
+            clientebd.setRut(rutFormateado);
             if(cliente.getNombre() != null) {
                 clientebd.setNombre(cliente.getNombre());
             }
@@ -121,8 +123,10 @@ public class PersonaService implements IPersonaService{
             if(cliente.getApellidoMaterno() != null) {
                 clientebd.setApellidoMaterno(cliente.getApellidoMaterno());
             }
-            if(cliente.getEdad() >= 25) {
+            if(cliente.getEdad() >= 25 && cliente.getEdad() <= 100) {
                 clientebd.setEdad(cliente.getEdad());
+            } else if(cliente.getEdad() == 0) {
+
             } else {
                 return "invalidEdad";
             }

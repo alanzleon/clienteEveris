@@ -123,16 +123,17 @@ public class PersonaController {
         return response;
     }
 
-    @RequestMapping(value = "/actualizar/{id}", method = RequestMethod.PUT)
-    public ResponseEntity<?> actualizar(@RequestBody Cliente cliente, @PathVariable(value = "id") String id){
+    //@RequestMapping(value = "/actualizar/{rut}", method = RequestMethod.PUT)
+    @PutMapping("/actualizar/{rut}")
+    public ResponseEntity<?> actualizar(@RequestBody Cliente cliente, @PathVariable(value = "rut") String rut){
         ResponseEntity<?> response;
-        String respuestaService = this.service.updateCliente(cliente,id);
+        String respuestaService = this.service.updateCliente(cliente,rut);
         try {
             switch(respuestaService) {
                 case "update":
-                    response = new ResponseEntity<>(cliente, HttpStatus.OK);
+                    response = new ResponseEntity<>(mensaje("Cliente actualizado"), HttpStatus.OK);
                     break;
-                case "notfound":
+                case "notFound":
                     response = new ResponseEntity<>(mensajeError("Cliente No existe"),HttpStatus.NOT_FOUND);
                     break;
                 case "invalidEdad":
