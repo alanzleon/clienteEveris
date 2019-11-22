@@ -11,5 +11,5 @@ import java.util.List;
 @Repository
 public interface IClienteRepository extends MongoRepository<Cliente, Serializable> {
     Cliente findOneById(String id);
-    //public Client findClienteById ();
+    Cliente findOneByRut(String rut);
 }

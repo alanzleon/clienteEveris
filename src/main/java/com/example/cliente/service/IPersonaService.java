@@ -11,4 +11,5 @@ public interface IPersonaService {
     List<Cliente> findClientes ();
     String updateCliente (Cliente cliente, String id);
     Cliente findClienteById(String id);
+    Cliente findClienteByRut(String rut);
 }

@@ -43,6 +43,19 @@ public class PersonaController {
 
     }
 
+    @GetMapping("/getByRut/{rut}")
+    public ResponseEntity<?> getClienteByRut(@PathVariable(value = "rut") String rut){
+        ResponseEntity<?> response;
+        try{
+            Cliente cliente = this.service.findClienteByRut(rut);
+            response = new ResponseEntity<>(cliente, HttpStatus.OK);
+        }catch (Exception ex) {
+            System.out.println(ex);
+            response = new ResponseEntity<>(mensajeError(ex.toString()), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+        return response;
+    }
+
     @PostMapping("/addCliente")
     public ResponseEntity<?> addCliente (@RequestBody Cliente cliente){
         ResponseEntity<?> response;
@@ -92,17 +105,20 @@ public class PersonaController {
                     response = new ResponseEntity<>(mensajeError("Falta fecha de vencimiento licencia"), HttpStatus.BAD_REQUEST);
                     break;
                 case "invalidRut":
-                    response = new ResponseEntity<>(mensajeError("Ingrese un rut valido"), HttpStatus.CREATED);
+                    response = new ResponseEntity<>(mensajeError("Ingrese un rut valido"), HttpStatus.BAD_REQUEST);
                     break;
                 case "invalidTelefono":
-                    response = new ResponseEntity<>(mensajeError("Ingrese un telefono valido"), HttpStatus.CREATED);
+                    response = new ResponseEntity<>(mensajeError("Ingrese un telefono valido"), HttpStatus.BAD_REQUEST);
+                    break;
+                case "rutExistente":
+                    response = new ResponseEntity<>(mensajeError("El cliente ya existe"), HttpStatus.BAD_REQUEST);
                     break;
                 default:
                     response = new ResponseEntity<>(mensajeError("Algo salio mal"),HttpStatus.INTERNAL_SERVER_ERROR);
                     break;
             }
         } catch (Exception ex) {
-            response = new ResponseEntity<>(mensajeError("Algo salio mal"),HttpStatus.INTERNAL_SERVER_ERROR);
+            response = new ResponseEntity<>(mensajeError(ex.toString()),HttpStatus.INTERNAL_SERVER_ERROR);
         }
         return response;
     }
@@ -112,13 +128,31 @@ public class PersonaController {
         ResponseEntity<?> response;
         String respuestaService = this.service.updateCliente(cliente,id);
         try {
-            if(respuestaService.equals("update")){
-                response = new ResponseEntity<>(cliente, HttpStatus.OK);
-            } else {
-                response = new ResponseEntity<>(mensajeError("Usuario No existe"),HttpStatus.BAD_REQUEST);
+            switch(respuestaService) {
+                case "update":
+                    response = new ResponseEntity<>(cliente, HttpStatus.OK);
+                    break;
+                case "notfound":
+                    response = new ResponseEntity<>(mensajeError("Cliente No existe"),HttpStatus.NOT_FOUND);
+                    break;
+                case "invalidEdad":
+                    response = new ResponseEntity<>(mensajeError("La edad debe estar entre 25 y 100 años"),HttpStatus.BAD_REQUEST);
+                    break;
+                case "invalidSexo":
+                    response = new ResponseEntity<>(mensajeError("El sexo debe ser Masculino o Femenino"),HttpStatus.BAD_REQUEST);
+                    break;
+                case "invalidTelefono":
+                    response = new ResponseEntity<>(mensajeError("Ingrese un telefono valido"),HttpStatus.BAD_REQUEST);
+                    break;
+                case "invalidTipoLicencia":
+                    response = new ResponseEntity<>(mensajeError("El tipo de licencia debe ser 'A', 'B' o 'C'"),HttpStatus.BAD_REQUEST);
+                    break;
+                default:
+                    response = new ResponseEntity<>(mensajeError("Algo salio mal"),HttpStatus.INTERNAL_SERVER_ERROR);
+                    break;
             }
         } catch (Exception ex){
-            response = new ResponseEntity<>(mensajeError("Algo salio mal"),HttpStatus.INTERNAL_SERVER_ERROR);
+            response = new ResponseEntity<>(mensajeError(ex.toString()),HttpStatus.INTERNAL_SERVER_ERROR);
         }
         return response;
     }
