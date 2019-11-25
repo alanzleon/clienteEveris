@@ -17,7 +17,7 @@ public class PersonaController {
     @Autowired
     private PersonaService service;
 
-    @GetMapping("/getAll")
+    @GetMapping()
     public ResponseEntity<?> getAll(){
         ResponseEntity<?> response;
         try {
@@ -43,7 +43,7 @@ public class PersonaController {
 
     }
 
-    @GetMapping("/getByRut/{rut}")
+    @GetMapping("/{rut}")
     public ResponseEntity<?> getClienteByRut(@PathVariable(value = "rut") String rut){
         ResponseEntity<?> response;
         try{
@@ -56,7 +56,7 @@ public class PersonaController {
         return response;
     }
 
-    @PostMapping("/addCliente")
+    @PostMapping()
     public ResponseEntity<?> addCliente (@RequestBody Cliente cliente){
         ResponseEntity<?> response;
         String respuestaService = this.service.saveCliente(cliente);
@@ -124,7 +124,7 @@ public class PersonaController {
     }
 
     //@RequestMapping(value = "/actualizar/{rut}", method = RequestMethod.PUT)
-    @PutMapping("/actualizar/{rut}")
+    @PutMapping("/{rut}")
     public ResponseEntity<?> actualizar(@RequestBody Cliente cliente, @PathVariable(value = "rut") String rut){
         ResponseEntity<?> response;
         String respuestaService = this.service.updateCliente(cliente,rut);
