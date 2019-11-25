@@ -5,7 +5,7 @@ import com.example.cliente.entity.Cliente;
 import java.util.List;
 import java.util.Optional;
 
-public interface IPersonaService {
+public interface IClienteService {
 
     String saveCliente (Cliente cliente);
     List<Cliente> findClientes ();

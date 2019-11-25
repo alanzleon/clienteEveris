@@ -7,15 +7,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.PathVariable;
 
-import java.text.SimpleDateFormat;
 import java.util.Arrays;
-import java.util.Date;
 import java.util.List;
-import java.util.Optional;
 import java.util.regex.Pattern;
 
 @Service
-public class PersonaService implements IPersonaService{
+public class PersonaService implements IClienteService {
     @Autowired
     private IClienteRepository repository;
 
@@ -28,7 +25,7 @@ public class PersonaService implements IPersonaService{
                     if(validarRut(cliente.getRut())){
                         //Se le da formato al rut xx.xxx.xxx-x
                         cliente.setRut(formatearRut(cliente.getRut()));
-                        if(clienteExist(cliente.getRut())){
+                        if(!clienteExist(cliente.getRut())){
                             if(cliente.getEdad() >= 25 && cliente.getEdad() < 100){
                                 if(cliente.getNombre() != null) {
                                     if (cliente.getApellidoPaterno() != null) {

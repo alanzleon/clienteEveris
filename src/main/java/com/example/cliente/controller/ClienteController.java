@@ -12,7 +12,7 @@ import java.util.List;
 @RestController
 @RequestMapping(value="/cliente")
 @CrossOrigin(value={})
-public class PersonaController {
+public class ClienteController {
 
     @Autowired
     private PersonaService service;
